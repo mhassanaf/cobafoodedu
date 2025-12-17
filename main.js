@@ -21,6 +21,11 @@ function initResponsiveNavbar() {
         const mobileMenu = navMenu.cloneNode(true);
         mobileMenu.classList.remove('nav-menu');
         mobileMenu.classList.add('nav-menu-mobile');
+
+        // Make mobile menu a flex container for proper button positioning
+        mobileMenu.style.display = 'flex';
+        mobileMenu.style.flexDirection = 'column';
+
         navbarInner.appendChild(mobileMenu);
 
         // Create mobile overlay
@@ -86,14 +91,18 @@ function initResponsiveNavbar() {
             // Overlay click
             mobileOverlay.addEventListener('click', toggleMobileMenu);
 
-            // Close on link click (except dropdown toggles)
+            // Close on link click (except dropdown toggles and dropdown menu items)
             const mobileLinks = mobileNav.querySelectorAll('a:not(.dropdown-toggle)');
             mobileLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    if (window.innerWidth <= 900) {
-                        setTimeout(() => toggleMobileMenu(), 150);
-                    }
-                });
+                // Skip dropdown menu links - they'll be handled separately
+                const isDropdownLink = link.closest('.dropdown-menu');
+                if (!isDropdownLink) {
+                    link.addEventListener('click', () => {
+                        if (window.innerWidth <= 900) {
+                            setTimeout(() => toggleMobileMenu(), 150);
+                        }
+                    });
+                }
             });
 
             // Mobile dropdown toggle
@@ -116,6 +125,16 @@ function initResponsiveNavbar() {
                         dropdown.classList.remove('open');
                     } else {
                         dropdown.classList.add('open');
+                    }
+                });
+            });
+
+            // Handle dropdown menu links separately
+            const dropdownMenuLinks = mobileNav.querySelectorAll('.dropdown-menu a');
+            dropdownMenuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth <= 900) {
+                        setTimeout(() => toggleMobileMenu(), 150);
                     }
                 });
             });

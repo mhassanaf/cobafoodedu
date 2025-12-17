@@ -714,15 +714,24 @@ img {
     background: rgba(39, 174, 96, 0.05);
     box-shadow: none !important;
     opacity: 0;
+    visibility: visible !important;
+    /* Override desktop visibility:hidden */
     max-height: 0;
     overflow: hidden;
     transform: none !important;
     transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     padding: 0;
+    width: 100%;
+    top: 0 !important;
+    left: 0 !important;
+    border: none;
+    border-radius: 0;
+    margin: 0;
 }
 
 .nav-menu-mobile .dropdown.open .dropdown-menu {
     opacity: 1;
+    visibility: visible !important;
     max-height: 300px;
     padding: 8px 0;
 }
@@ -735,6 +744,49 @@ img {
 
 .nav-menu-mobile .dropdown-menu a:hover {
     padding-left: 50px;
+}
+
+/* Mobile Nav Buttons Section */
+.nav-menu-mobile .nav-buttons {
+    display: flex !important;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px 15px;
+    margin-top: auto;
+    border-top: 2px solid rgba(39, 174, 96, 0.15);
+    background: linear-gradient(135deg, rgba(39, 174, 96, 0.05) 0%, rgba(39, 174, 96, 0.02) 100%);
+}
+
+.nav-menu-mobile .nav-buttons button {
+    width: 100%;
+    padding: 12px 24px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border: none;
+}
+
+.nav-menu-mobile .btn-login {
+    background: white;
+    border: 2px solid var(--green) !important;
+    color: var(--green);
+    box-shadow: 0 2px 8px rgba(39, 174, 96, 0.15);
+}
+
+.nav-menu-mobile .btn-login:active {
+    transform: scale(0.98);
+}
+
+.nav-menu-mobile .btn-signup {
+    background: linear-gradient(135deg, var(--accent) 0%, #ff8a00 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(255, 159, 28, 0.3);
+}
+
+.nav-menu-mobile .btn-signup:active {
+    transform: scale(0.98);
 }
 
 /* User Profile Mobile */
