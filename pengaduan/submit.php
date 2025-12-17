@@ -28,16 +28,11 @@ $user_id = $_SESSION['user_id'];
 
 // Validation
 $errors = [];
-if (empty($nama_lengkap))
-    $errors[] = 'Nama lengkap harus diisi';
-if (empty($nama_sekolah))
-    $errors[] = 'Nama sekolah harus diisi';
-if (empty($tanggal_kejadian))
-    $errors[] = 'Tanggal kejadian harus diisi';
-if (empty($jenis_pengaduan))
-    $errors[] = 'Jenis pengaduan harus dipilih';
-if (empty($deskripsi))
-    $errors[] = 'Deskripsi pengaduan harus diisi';
+if (empty($nama_lengkap)) $errors[] = 'Nama lengkap harus diisi';
+if (empty($nama_sekolah)) $errors[] = 'Nama sekolah harus diisi';
+if (empty($tanggal_kejadian)) $errors[] = 'Tanggal kejadian harus diisi';
+if (empty($jenis_pengaduan)) $errors[] = 'Jenis pengaduan harus dipilih';
+if (empty($deskripsi)) $errors[] = 'Deskripsi pengaduan harus diisi';
 
 if (!empty($errors)) {
     http_response_code(422);
@@ -51,30 +46,30 @@ if (isset($_FILES['bukti']) && $_FILES['bukti']['error'] === UPLOAD_ERR_OK) {
     $file = $_FILES['bukti'];
     $allowed_types = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
     $max_size = 5 * 1024 * 1024; // 5MB
-
+    
     if (!in_array($file['type'], $allowed_types)) {
         http_response_code(422);
         echo json_encode(['success' => false, 'message' => 'Format file tidak didukung. Gunakan JPG, PNG, atau PDF']);
         exit;
     }
-
+    
     if ($file['size'] > $max_size) {
         http_response_code(422);
         echo json_encode(['success' => false, 'message' => 'Ukuran file terlalu besar. Maksimal 5MB']);
         exit;
     }
-
+    
     // Create upload directory if not exists
     $upload_dir = __DIR__ . '/../uploads/pengaduan/';
     if (!is_dir($upload_dir)) {
         mkdir($upload_dir, 0755, true);
     }
-
+    
     // Generate unique filename
     $file_ext = pathinfo($file['name'], PATHINFO_EXTENSION);
     $file_name = 'pengaduan_' . time() . '_' . uniqid() . '.' . $file_ext;
     $file_path = $upload_dir . $file_name;
-
+    
     if (move_uploaded_file($file['tmp_name'], $file_path)) {
         $bukti_path = 'uploads/pengaduan/' . $file_name;
     } else {
@@ -89,10 +84,11 @@ try {
     $stmt = $pdo->prepare("
         INSERT INTO pengaduan 
         (user_id, nama_lengkap, nama_sekolah, tanggal_kejadian, jenis_pengaduan, deskripsi, bukti_path, status, created_at)
-        VALUES (:nama_lengkap, :nama_sekolah, :tanggal_kejadian, :jenis_pengaduan, :deskripsi, :bukti_path, 'pending', NOW())
+        VALUES (:user_id, :nama_lengkap, :nama_sekolah, :tanggal_kejadian, :jenis_pengaduan, :deskripsi, :bukti_path, 'pending', NOW())
     ");
-
+    
     $stmt->execute([
+        'user_id' => $user_id,
         'nama_lengkap' => $nama_lengkap,
         'nama_sekolah' => $nama_sekolah,
         'tanggal_kejadian' => $tanggal_kejadian,
@@ -100,9 +96,9 @@ try {
         'deskripsi' => $deskripsi,
         'bukti_path' => $bukti_path
     ]);
-
+    
     echo json_encode([
-        'success' => true,
+        'success' => true, 
         'message' => 'Pengaduan berhasil dikirim! Terima kasih atas laporan Anda.'
     ]);
 } catch (Exception $e) {
@@ -110,3 +106,4 @@ try {
     echo json_encode(['success' => false, 'message' => 'Server error: ' . $e->getMessage()]);
 }
 ?>
+
