@@ -46,7 +46,7 @@ try {
     // Insert into database
     $stmt = $pdo->prepare("
         INSERT INTO saran 
-        (user_id, nama_lengkap, nama_sekolah, saran_dan_masukan, alasan, status, created_at)
+        (:user_id, nama_lengkap, nama_sekolah, saran_dan_masukan, alasan, status, created_at)
         VALUES (:user_id, :nama_lengkap, :nama_sekolah, :saran_dan_masukan, :alasan, 'pending', NOW())
     ");
 
