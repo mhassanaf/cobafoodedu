@@ -28,6 +28,27 @@ function initResponsiveNavbar() {
 
         navbarInner.appendChild(mobileMenu);
 
+        // FLATTEN DROPDOWN STRUCTURE FOR MOBILE - No more accordion, direct links
+        const mobileDropdowns = mobileMenu.querySelectorAll('.dropdown');
+        mobileDropdowns.forEach(dropdown => {
+            const dropdownMenu = dropdown.querySelector('.dropdown-menu');
+            if (dropdownMenu) {
+                const dropdownLinks = dropdownMenu.querySelectorAll('a');
+
+                // Insert each dropdown link as a direct menu item
+                dropdownLinks.forEach(link => {
+                    link.classList.add('nav-item', 'dropdown-item-flat');
+                    link.style.paddingLeft = '35px';
+                    const originalText = link.textContent;
+                    link.innerHTML = '→ ' + originalText;
+                    dropdown.parentNode.insertBefore(link, dropdown.nextSibling);
+                });
+
+                // Remove the dropdown container completely
+                dropdown.remove();
+            }
+        });
+
         // Create mobile overlay
         const overlay = document.createElement('div');
         overlay.className = 'mobile-overlay';

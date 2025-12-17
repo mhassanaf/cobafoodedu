@@ -746,6 +746,25 @@ img {
     padding-left: 50px;
 }
 
+/* Flattened Dropdown Items - Direct Links in Mobile */
+.nav-menu-mobile .dropdown-item-flat {
+    background: rgba(39, 174, 96, 0.03);
+    border-left: 3px solid rgba(39, 174, 96, 0.3);
+    font-size: 14px;
+    color: #555;
+}
+
+.nav-menu-mobile .dropdown-item-flat:hover {
+    background: rgba(39, 174, 96, 0.08);
+    border-left-color: var(--green);
+    color: var(--green);
+    padding-left: 40px !important;
+}
+
+.nav-menu-mobile .dropdown-item-flat::before {
+    display: none;
+}
+
 /* Mobile Nav Buttons Section */
 .nav-menu-mobile .nav-buttons {
     display: flex !important;
