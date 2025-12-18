@@ -527,8 +527,8 @@
           } else if (v === 'mbg') {
             extraFields.innerHTML = `
               <div class="auth-form-group">
-                <label for="su_sekolah">Nama Sekolah <span class="required">*</span></label>
-                <input name="sekolah" id="su_sekolah" type="text" placeholder="Nama sekolah" required>
+                <label for="su_sekolah">Domisili <span class="required">*</span></label>
+                <input name="sekolah" id="su_sekolah" type="text" placeholder="Domisili " required>
               </div>
               <div class="auth-form-group">
                 <label for="su_id">ID Karyawan <span class="required">*</span></label>
